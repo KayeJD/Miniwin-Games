@@ -1,0 +1,8 @@
+games/__pycache__/
+
+# directories
+env/
+
+# Ignore editor-specific files
+.idea/
+.run/
