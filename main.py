@@ -1,5 +1,5 @@
 import dearpygui.dearpygui as dpg
-from games import color_word
+from games import color_word, track_fill
 
 def main():
     dpg.create_context()
@@ -14,6 +14,7 @@ def main():
     with dpg.window(tag='main_window', menubar=False):
         dpg.add_text('Select a Game:')
         dpg.add_button(label="Color Word", callback=lambda: open_game(color_word))
+        dpg.add_button(label="Track Fill!", callback=lambda: open_game(track_fill))
 
     dpg.show_viewport()
     dpg.set_primary_window('main_window', True)
