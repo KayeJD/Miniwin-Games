@@ -1,29 +1,29 @@
-# import sys module 
 import pygame
 import sys
 
-# pygame.init() will initialize all
-# imported module 
 pygame.init()
 
-clock = pygame.time.Clock()
+BLUE = (0, 0, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
 
-# it will display on screen 
-screen = pygame.display.set_mode([600, 500])
+SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 500
+SPEED = 5
+SCORE = 0
 
-# basic font for user typed 
+FPS = 120
+FramePerSec = pygame.time.Clock()
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
 base_font = pygame.font.Font(None, 32)
+font = pygame.font.SysFont("Verdana", 60)
 user_text = ''
 
-# create rectangle 
-input_rect = pygame.Rect(200, 200, 140, 32)
-
-# color_active stores color(lightskyblue3) which 
-# gets active when input box is clicked by user 
-color_active = pygame.Color('lightskyblue3')
-
-# color_passive store color(chartreuse4) which is 
-# color of input box. 
+input_rect = pygame.Rect(200, 200, 300, 32)
+color_active = pygame.Color('lightgray')
 color_passive = pygame.Color('chartreuse4')
 color = color_passive
 
@@ -44,43 +44,38 @@ while True:
                 active = False
 
         if event.type == pygame.KEYDOWN:
-
-            # Check for backspace 
             if event.key == pygame.K_BACKSPACE:
-
-                # get text input from 0 to -1 i.e. end. 
                 user_text = user_text[:-1]
-
-                # Unicode standard is used for string
-            # formation 
             else:
                 user_text += event.unicode
 
-    # it will set background color of screen 
-    screen.fill((255, 255, 255))
+        if event.type == pygame.K_KP_ENTER:
+            user_text += event.unicode
+
+    # it will set background color of screen
+    SCREEN.fill((255, 255, 255))
 
     if active:
         color = color_active
     else:
         color = color_passive
 
-        # draw rectangle and argument passed which should
-    # be on screen 
-    pygame.draw.rect(screen, color, input_rect)
+    scores = base_font.render(str(SCORE), True, BLACK)
+    SCREEN.blit(scores, (10, 10))
 
+    # Input text section
+    pygame.draw.rect(SCREEN, color, input_rect, border_radius=3)
     text_surface = base_font.render(user_text, True, (255, 255, 255))
-
-    # render at position stated in arguments 
-    screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
-
-    # set width of textfield so that text cannot get 
-    # outside of user's text input 
+    SCREEN.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
     input_rect.w = max(100, text_surface.get_width() + 10)
 
-    # display.flip() will update only a portion of the 
-    # screen to updated, not full area 
-    pygame.display.flip()
+    # Start button
+    start_button = pygame.draw.rect(SCREEN, GREEN, input_rect, border_radius=4)
+    start_button.x = 0
+    start_button.y = 0
+    # SCREEN.blit(start_button, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
 
-    # clock.tick(60) means that for every second at most 
-    # 60 frames should be passed. 
-    clock.tick(60) 
+    # display.flip() will update only a portion of the screen to updated, not full area
+    pygame.display.flip()
+    # pygame.display.update()
+    FramePerSec.tick(FPS)
